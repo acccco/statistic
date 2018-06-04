@@ -4,9 +4,9 @@ module.exports = {
   mode: 'production',
   entry: './index.js',
   output: {
-    filename: 'zklog.js',
+    filename: 'statistic.js',
     path: path.resolve(__dirname, 'dist'),
-    library: "zklog",
+    library: "statistic",
     libraryTarget: 'umd'
   },
   devtool: "source-map",
