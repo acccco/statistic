@@ -1,73 +1,48 @@
 import event from './lib/event'
-import {timing} from "./lib/timing"
+import timing from "./lib/browserTiming"
 import behavior from "./lib/behavior"
 import acTime from "./lib/activeTime"
-import {post, postImg} from "./lib/post"
 import config from "./lib/config"
-import {getPageInfo} from './lib/pageInfo'
-import {getBaseInfo} from './lib/baseInfo'
+import getPageInfo from './lib/pageInfo'
 import storage from "./lib/storage"
+import Event from "./lib/Event"
 
-try {
-  acTime.init()
-  behavior.init()
-  let firstPV = true
-
-  let fncs = {
-    _trackPageview: pageStart,
-    _closePageview: pageClose,
-    _trackEvent: userEvent,
-    _setAutoPageview: function openFirstPV(arr) {
-      firstPV = arr[1]
-    },
-    _setCustomVar: userVar,
-    _postError: postError
-  }
-
-  let arr = window[config.varName] || []
-  for (let i = 0, len = arr.length; i < len; i++) {
-    arr[i] = typeof arr[i] === 'string' ? [arr[i]] : arr[i]
-    fncs[arr[i][0]](arr[i])
-  }
-  let oldPush = arr.push
-  arr.push = function (...events) {
-    for (let i = 0, len = events.length; i < len; i++) {
-      events[i] = typeof events[i] === 'string' ? [events[i]] : events[i]
-      fncs[events[i][0]](events[i])
+export default class Statistic extends Event {
+  constructor() {
+    super()
+    this.firstPv = true
+    try {
+      this._init()
+    } catch (e) {
+      post(getBaseInfo(), 10, {
+        rpu: document.referrer,
+        errt: e.name,
+        errm: e.message
+      })
     }
-    oldPush.apply(arr, events)
   }
 
-  let urls = storage.getData(config.namespaces + '_unset_' + config.appid)
-  urls = urls ? urls.split('|') : []
-  storage.remove(config.namespaces + '_unset')
-  while (urls[0]) {
-    postImg(urls[0])
-    urls.shift()
+  _init() {
+    acTime.init()
+    behavior.init()
+
+    this.$emit('init', this)
+
+    event.create(window, 'load', () => {
+      this.firstPv && post(getBaseInfo(), 0, getPageInfo())
+      setTimeout(() => {
+        post(getBaseInfo(), 1, timing())
+      }, 5E3)
+    })
+    event.create(window, 'unload', () => {
+      storage.setData(config.namespaces + '_ppai_' + config.appid, config.pageAccessId, true)
+      post(getBaseInfo(), 3, Object.assign({
+        su: window.location.href,
+        ot: new Date() - config.pvStartTime
+      }, behavior.getBehavior(), acTime.getActiveTime()))
+    })
+
   }
-
-  event.create(window, 'load', () => {
-    firstPV && post(getBaseInfo(), 0, getPageInfo())
-    setTimeout(() => {
-      post(getBaseInfo(), 1, timing())
-    }, 5E3)
-  })
-
-  event.create(window, 'unload', () => {
-    storage.setData(config.namespaces + '_ppai_' + config.appid, config.pageAccessId, true)
-    post(getBaseInfo(), 3, Object.assign({
-      su: window.location.href,
-      ot: new Date() - config.pvStartTime
-    }, behavior.getBehavior(), acTime.getActiveTime()))
-  })
-
-} catch (e) {
-  console.log(e)
-  post(getBaseInfo(), 10, {
-    rpu: document.referrer,
-    errt: e.name,
-    errm: e.message
-  })
 }
 
 /**
@@ -105,31 +80,13 @@ export function postError(e) {
 }
 
 /**
- * 自定义事件
+ * 自定义上传数据
  * @param arr
  */
-export function userEvent(arr) {
+export function customPost(arr) {
   post(getBaseInfo(), 2, {
     ot: new Date() - config.pvStartTime,
     pai: config.pageAccessId,
-    cat: arr[1],
-    an: arr[2],
-    ola: arr[3],
-    ova: arr[4],
-  })
-}
-
-/**
- * 自定义变量
- * @param arr
- */
-export function userVar(arr) {
-  post(getBaseInfo(), 2, {
-    ot: new Date() - config.pvStartTime,
-    pai: config.pageAccessId,
-    ind: arr[1],
-    an: arr[2],
-    val: arr[3],
-    sco: arr[4],
+    data: arr.map(str => str.replace(/|/g, '**')).join('|')
   })
 }
