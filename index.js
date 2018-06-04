@@ -6,6 +6,7 @@ import config from "./lib/config"
 import getPageInfo from './lib/pageInfo'
 import storage from "./lib/storage"
 import Event from "./lib/Event"
+import md5 from "blueimp-md5"
 
 export default class Statistic extends Event {
   constructor() {
@@ -27,19 +28,19 @@ export default class Statistic extends Event {
       }, 5E3)
     })
     event.create(window, 'unload', () => {
-      storage.setData(config.namespaces + '_ppai_' + config.appid, config.pageAccessId, true)
+      storage.setData(config.namespaces + '_ppai_' + config.appId, config.pageAccessId, true)
       this.$emit('windowUnload', Object.assign(behavior.getBehavior(), acTime.getActiveTime()))
     })
   }
 
   pageStart() {
-    config.pageAccessId = new Date() % 63353
+    config.pageAccessId = md5(config.appId + window.location.href)
     config.pvStartTime = new Date().valueOf()
     this.$emit('pageStart', getPageInfo())
   }
 
   pageClose() {
-    storage.setData(config.namespaces + '_ppai_' + config.appid, config.pageAccessId, true)
+    storage.setData(config.namespaces + '_ppai_' + config.appId, config.pageAccessId, true)
     config.parentPageAccessId = config.pageAccessId
     this.$emit('pageClose', Object.assign(behavior.getUserBehavior(), acTime.getUserActiveTime()))
   }
