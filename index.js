@@ -1,16 +1,16 @@
-import {event} from './lib/event'
+import event from './lib/event'
 import {timing} from "./lib/timing"
-import {bInit, getBehavior, getUserBehavior} from "./lib/behavior"
-import {atInit, getActiveTime, getUserActiveTime} from "./lib/activeTime"
+import behavior from "./lib/behavior"
+import acTime from "./lib/activeTime"
 import {post, postImg} from "./lib/post"
-import {config} from "./lib/config"
+import config from "./lib/config"
 import {getPageInfo} from './lib/pageInfo'
 import {getBaseInfo} from './lib/baseInfo'
-import {storage} from "./lib/storage"
+import storage from "./lib/storage"
 
 try {
-  atInit()
-  bInit()
+  acTime.init()
+  behavior.init()
   let firstPV = true
 
   let fncs = {
@@ -20,6 +20,7 @@ try {
     _setAutoPageview: function openFirstPV(arr) {
       firstPV = arr[1]
     },
+    _setCustomVar: userVar,
     _postError: postError
   }
 
@@ -57,7 +58,7 @@ try {
     post(getBaseInfo(), 3, Object.assign({
       su: window.location.href,
       ot: new Date() - config.pvStartTime
-    }, getBehavior(), getActiveTime()))
+    }, behavior.getBehavior(), acTime.getActiveTime()))
   })
 
 } catch (e) {
@@ -88,7 +89,7 @@ export function pageClose() {
   post(getBaseInfo(), 3, Object.assign({
     su: window.location.href,
     ot: new Date() - config.pvStartTime
-  }, getUserBehavior(), getUserActiveTime()))
+  }, behavior.getUserBehavior(), acTime.getUserActiveTime()))
 }
 
 /**
@@ -115,5 +116,20 @@ export function userEvent(arr) {
     an: arr[2],
     ola: arr[3],
     ova: arr[4],
+  })
+}
+
+/**
+ * 自定义变量
+ * @param arr
+ */
+export function userVar(arr) {
+  post(getBaseInfo(), 2, {
+    ot: new Date() - config.pvStartTime,
+    pai: config.pageAccessId,
+    ind: arr[1],
+    an: arr[2],
+    val: arr[3],
+    sco: arr[4],
   })
 }
