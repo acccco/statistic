@@ -34,6 +34,7 @@ export default class Statistic extends Event {
   }
 
   pageStart() {
+    acTime.clearNoUse()
     config.pageAccessId = md5(config.appId + window.location.href)
     config.pvStartTime = new Date().valueOf()
     this.$emit('pageStart', getPageInfo())
