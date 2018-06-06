@@ -11,7 +11,7 @@ import md5 from "blueimp-md5"
 export default class Statistic extends Event {
   constructor() {
     super()
-    this.firstPv = true
+    this.autoPv = true
     this._init()
   }
 
@@ -22,7 +22,7 @@ export default class Statistic extends Event {
     this.$emit('init', this)
 
     event.create(window, 'load', () => {
-      this.firstPv && this.$emit('windowLoad', getPageInfo()
+      this.autoPv && this.$emit('windowLoad', getPageInfo()
       setTimeout(() => {
         this.$emit('browserTiming', timing())
       }, 5E3)
