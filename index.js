@@ -28,21 +28,21 @@ export default class Statistic extends Event {
       }, 5E3)
     })
     event.create(window, 'unload', () => {
-      storage.setData(config.namespaces + '_ppai_' + config.appId, config.pageAccessId, true)
+      storage.setData(config.namespaces + '_ppai_' + config.appId, config.pageId, true)
       this.$emit('windowUnload', Object.assign(behavior.getBehavior(), acTime.getActiveTime()))
     })
   }
 
   pageStart() {
     acTime.clearNoUse()
-    config.pageAccessId = md5(config.appId + window.location.href)
+    config.pageId = md5(config.appId + window.location.href)
     config.pvStartTime = new Date().valueOf()
     this.$emit('pageStart', getPageInfo())
   }
 
   pageClose() {
-    storage.setData(config.namespaces + '_ppai_' + config.appId, config.pageAccessId, true)
-    config.parentPageAccessId = config.pageAccessId
+    storage.setData(config.namespaces + '_ppai_' + config.appId, config.pageId, true)
+    config.parentPageId = config.pageId
     this.$emit('pageClose', Object.assign(behavior.getUserBehavior(), acTime.getUserActiveTime()))
   }
 
