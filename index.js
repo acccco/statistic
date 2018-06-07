@@ -1,4 +1,4 @@
-import event from './lib/event'
+import browserEvent from './lib/browserEvent'
 import timing from "./lib/browserTiming"
 import behavior from "./lib/behavior"
 import acTime from "./lib/activeTime"
@@ -21,13 +21,13 @@ export default class Statistic extends Event {
 
     this.$emit('init', this)
 
-    event.create(window, 'load', () => {
+    browserEvent.create(window, 'load', () => {
       this.autoPv && this.$emit('windowLoad', getPageInfo()
       setTimeout(() => {
         this.$emit('browserTiming', timing())
       }, 5E3)
     })
-    event.create(window, 'unload', () => {
+    browserEvent.create(window, 'unload', () => {
       storage.setData(config.namespaces + '_pai_' + config.appId, config.pageId, true)
       this.autoPv && this.$emit('windowUnload', Object.assign(behavior.getBehavior(), acTime.getActiveTime()))
     })
