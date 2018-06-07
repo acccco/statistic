@@ -28,8 +28,8 @@ export default class Statistic extends Event {
       }, 5E3)
     })
     event.create(window, 'unload', () => {
-      storage.setData(config.namespaces + '_ppai_' + config.appId, config.pageId, true)
-      this.$emit('windowUnload', Object.assign(behavior.getBehavior(), acTime.getActiveTime()))
+      storage.setData(config.namespaces + '_pai_' + config.appId, config.pageId, true)
+      this.autoPv && this.$emit('windowUnload', Object.assign(behavior.getBehavior(), acTime.getActiveTime()))
     })
   }
 
@@ -41,7 +41,7 @@ export default class Statistic extends Event {
   }
 
   pageClose() {
-    storage.setData(config.namespaces + '_ppai_' + config.appId, config.pageId, true)
+    storage.setData(config.namespaces + '_pai_' + config.appId, config.pageId, true)
     config.parentPageId = config.pageId
     this.$emit('pageClose', Object.assign(behavior.getUserBehavior(), acTime.getUserActiveTime()))
   }
