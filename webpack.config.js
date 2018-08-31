@@ -6,10 +6,11 @@ module.exports = {
   output: {
     filename: 'statistic.js',
     path: path.resolve(__dirname, 'dist'),
-    library: "statistic",
-    libraryTarget: 'umd'
+    library: 'Statistic',
+    libraryTarget: 'umd',
+    libraryExport: 'default'
   },
-  devtool: "source-map",
+  devtool: 'source-map',
   module: {
     rules: [
       {

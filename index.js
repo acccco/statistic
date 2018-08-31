@@ -1,18 +1,18 @@
 import browserEvent from './lib/browserEvent'
-import timing from './lib/browserTiming'
+import browserTiming from './lib/browserTiming'
 import behavior from './lib/behavior'
 import activeTime from './lib/activeTime'
 import config from './lib/config'
 import getPageInfo from './lib/pageInfo'
 import storage from './lib/storage'
 import Event from './lib/Event'
-import client from './lib/client'
+import clientInfo from './lib/client'
 import md5 from 'blueimp-md5'
 
 export default class Statistic extends Event {
-  constructor() {
+  constructor(autoPv = true) {
     super()
-    this.autoPv = true
+    this.autoPv = autoPv
     this._init()
   }
 
@@ -24,8 +24,9 @@ export default class Statistic extends Event {
 
     browserEvent.create(window, 'load', () => {
       this.autoPv && this.$emit('windowLoad', getPageInfo())
+      this.$emit('clientInfo', clientInfo)
       setTimeout(() => {
-        this.$emit('browserTiming', timing())
+        this.$emit('browserTiming', browserTiming())
       }, 5E3)
     })
     browserEvent.create(window, 'unload', () => {
@@ -49,10 +50,6 @@ export default class Statistic extends Event {
 
   userEvent(postData) {
     this.$emit('userEvent', postData)
-  }
-
-  getClientInfo() {
-    return client
   }
 
 }

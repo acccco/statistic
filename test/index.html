@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>统计测试</title>
+</head>
+<body>
+
+</body>
+<script src="../dist/statistic.js"></script>
+<script>
+  var statistic = new Statistic();
+  statistic.$on('windowLoad', function (data) {
+    console.log('windowLoad', data)
+  })
+  statistic.$on('browserTiming', function (data) {
+    console.log('browserTiming', data)
+  })
+  statistic.$on('clientInfo', function (data) {
+    console.log('clientInfo', data)
+  })
+  statistic.$on('windowUnload', function (data) {
+    console.log('windowUnload', data)
+  })
+  statistic.$on('pageStart', function (data) {
+    console.log('pageStart', data)
+  })
+  statistic.$on('pageClose', function (data) {
+    console.log('pageClose', data)
+  })
+  statistic.$on('userEvent', function (data) {
+    console.log('userEvent', data)
+  })
+</script>
+</html>
