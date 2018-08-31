@@ -1,7 +1,7 @@
 import browserEvent from './lib/browserEvent'
 import timing from "./lib/browserTiming"
 import behavior from "./lib/behavior"
-import acTime from "./lib/activeTime"
+import activeTime from "./lib/activeTime"
 import config from "./lib/config"
 import getPageInfo from './lib/pageInfo'
 import storage from "./lib/storage"
@@ -16,25 +16,25 @@ export default class Statistic extends Event {
   }
 
   _init() {
-    acTime.init()
+    activeTime.init()
     behavior.init()
 
     this.$emit('init', this)
 
     browserEvent.create(window, 'load', () => {
-      this.autoPv && this.$emit('windowLoad', getPageInfo()
+      this.autoPv && this.$emit('windowLoad', getPageInfo())
       setTimeout(() => {
         this.$emit('browserTiming', timing())
       }, 5E3)
     })
     browserEvent.create(window, 'unload', () => {
       storage.setData(config.namespaces + '_pai_' + config.appId, config.pageId, true)
-      this.autoPv && this.$emit('windowUnload', Object.assign(behavior.getBehavior(), acTime.getActiveTime()))
+      this.autoPv && this.$emit('windowUnload', Object.assign(behavior.getBehavior(), activeTime.getActiveTime()))
     })
   }
 
   pageStart() {
-    acTime.clearNoUse()
+    activeTime.clearNoUse()
     config.pageId = md5(config.appId + window.location.href)
     config.pvStartTime = new Date().valueOf()
     this.$emit('pageStart', getPageInfo())
@@ -43,7 +43,11 @@ export default class Statistic extends Event {
   pageClose() {
     storage.setData(config.namespaces + '_pai_' + config.appId, config.pageId, true)
     config.parentPageId = config.pageId
-    this.$emit('pageClose', Object.assign(behavior.getUserBehavior(), acTime.getUserActiveTime()))
+    this.$emit('pageClose', Object.assign(behavior.getUserBehavior(), activeTime.getUserActiveTime()))
+  }
+
+  userEvent(postData) {
+    this.$emit('userEvent', postData)
   }
 
 }
