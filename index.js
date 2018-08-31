@@ -1,12 +1,13 @@
 import browserEvent from './lib/browserEvent'
-import timing from "./lib/browserTiming"
-import behavior from "./lib/behavior"
-import activeTime from "./lib/activeTime"
-import config from "./lib/config"
+import timing from './lib/browserTiming'
+import behavior from './lib/behavior'
+import activeTime from './lib/activeTime'
+import config from './lib/config'
 import getPageInfo from './lib/pageInfo'
-import storage from "./lib/storage"
-import Event from "./lib/Event"
-import md5 from "blueimp-md5"
+import storage from './lib/storage'
+import Event from './lib/Event'
+import client from './lib/client'
+import md5 from 'blueimp-md5'
 
 export default class Statistic extends Event {
   constructor() {
@@ -48,6 +49,10 @@ export default class Statistic extends Event {
 
   userEvent(postData) {
     this.$emit('userEvent', postData)
+  }
+
+  getClientInfo() {
+    return client
   }
 
 }
