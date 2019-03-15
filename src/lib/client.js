@@ -1,19 +1,28 @@
-import browserEvent from "./browserEvent"
+import browserEvent from "./browserEvent";
 
-function b() {
-  let a = 0;
+function getOrientation() {
+  let orientation = 0;
   if (window.orientation !== undefined) {
-    a = window.orientation
+    orientation = window.orientation;
   }
   if (screen && (screen.orientation && screen.orientation.angle !== undefined)) {
-    a = screen.orientation.angle
+    orientation = screen.orientation.angle;
   }
-  clientInfo.orientation = a
+  clientInfo.orientation = orientation;
 }
 
 /**
  * 客户端基本信息采集
- * @type {{isIE: boolean, IEVersion: *, cookieEnabled: boolean, javaEnabled: boolean, language: string | * | string, screenSize: string, colorDepth: number, orientation: number}}
+ * @type {{
+ *  isIE: boolean,
+ *  IEVersion: *,
+ *  cookieEnabled: boolean,
+ *  javaEnabled: boolean,
+ *  language: string,
+ *  screenSize: string,
+ *  colorDepth: number,
+ *  orientation: number
+ * }}
  */
 const clientInfo = {
   isIE: /msie (\d+\.\d+)/i.test(navigator.userAgent),
@@ -24,9 +33,9 @@ const clientInfo = {
   screenSize: (window.screen.width || 0) + "x" + (window.screen.height || 0),
   colorDepth: window.screen.colorDepth || 0,
   orientation: 0
-}
+};
 
-b();
-browserEvent.create(window, "orientationchange", b)
+getOrientation();
+browserEvent.create(window, "orientationchange", getOrientation);
 
-export default clientInfo
+export default clientInfo;

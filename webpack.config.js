@@ -1,21 +1,21 @@
-var path = require('path');
+var path = require("path");
 
 module.exports = {
-  mode: 'production',
-  entry: './index.js',
+  mode: "production",
+  entry: "./src/index.js",
   output: {
-    filename: 'statistic.js',
-    path: path.resolve(__dirname, 'dist'),
-    library: 'Statistic',
-    libraryTarget: 'umd',
-    libraryExport: 'default'
+    filename: "statistic.js",
+    path: path.resolve(__dirname, "dist"),
+    library: "Statistic",
+    libraryTarget: "umd",
+    libraryExport: "default"
   },
-  devtool: 'source-map',
+  devtool: "source-map",
   module: {
     rules: [
       {
         test: /.js$/,
-        loader: 'babel-loader'
+        loader: "babel-loader"
       }
     ]
   }

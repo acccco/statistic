@@ -1,17 +1,16 @@
 # 收集客户端信息以及统计用户行为
 
-### 使用
+## 使用
 
 1. 将 dist 下的 statistic.js 的文件下载到本地引入。
-2. 搜索 `{{clientId}}` 需动态替换成你需要的 `clientId` 。（用于标志客户端的唯一 `ID`）
-3. 搜索 `{{appId}}` 需动态替换成你需要的 `appId` 。(用于标志应用的唯一 `ID`)
-4. 搜索 `{{domList}}` 需动态替换成你需要的 `domList` 。（用 `;` 分割的域名列表，用于表示同一应用的不同服务）
-5. 搜索 `{{namespaces}}` 需动态替换成你需要的 `namespaces` 。（存储在 storage 中键值的前缀，防止命名冲突）
-6. 搜索 `{{version}}` 需动态替换成你需要的 `version` 。（版本号）
-7. 替换好后引入该 `js`。
-8. 引入后会添加一个 Statistic 对象，接着操作可以看 `DEMO`
+2. 搜索 `{{appId}}` 需动态替换成你需要的 `appId` 。(用于标志应用的唯一 `ID`)
+3. 搜索 `{{domList}}` 需动态替换成你需要的 `domList` 。（用 `;` 分割的域名列表，用于表示同一应用的不同服务）
+4. 搜索 `{{namespaces}}` 需动态替换成你需要的 `namespaces` 。（存储在 storage 中键值的前缀，防止命名冲突）
+5. 搜索 `{{version}}` 需动态替换成你需要的 `version` 。（版本号）
+6. 替换好后引入该 `js`。
+7. 引入后会添加一个 Statistic 对象，接着操作可以看 `DEMO`
 
-### DEMO
+## DEMO
 
 ```
   var statistic = new Statistic();
@@ -46,7 +45,7 @@
   statistic.userEvent({a:1})
 ```
 
-### 事件返回的数据
+## 事件返回的数据
 
 - windowLoad: 页面加载完成后触发，触发一个相当于浏览开始。（pv start）
 
