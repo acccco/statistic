@@ -5,7 +5,7 @@ function getOrientation() {
   if (window.orientation !== undefined) {
     orientation = window.orientation;
   }
-  if (screen && (screen.orientation && screen.orientation.angle !== undefined)) {
+  if (screen && screen.orientation && screen.orientation.angle !== undefined) {
     orientation = screen.orientation.angle;
   }
   clientInfo.orientation = orientation;
@@ -15,7 +15,7 @@ function getOrientation() {
  * 客户端基本信息采集
  * @type {{
  *  isIE: boolean,
- *  IEVersion: *,
+ *  IEVersion: string,
  *  cookieEnabled: boolean,
  *  javaEnabled: boolean,
  *  language: string,
@@ -26,13 +26,20 @@ function getOrientation() {
  */
 const clientInfo = {
   isIE: /msie (\d+\.\d+)/i.test(navigator.userAgent),
-  IEVersion: /msie (\d+\.\d+)/i.test(navigator.userAgent) ? document.documentMode || 0 : undefined,
+  IEVersion: /msie (\d+\.\d+)/i.test(navigator.userAgent)
+    ? document.documentMode || 0
+    : "",
   cookieEnabled: navigator.cookieEnabled,
   javaEnabled: navigator.javaEnabled(),
-  language: navigator.language || navigator.browserLanguage || navigator.systemLanguage || navigator.userLanguage || "",
+  language:
+    navigator.language ||
+    navigator.browserLanguage ||
+    navigator.systemLanguage ||
+    navigator.userLanguage ||
+    "",
   screenSize: (window.screen.width || 0) + "x" + (window.screen.height || 0),
   colorDepth: window.screen.colorDepth || 0,
-  orientation: 0
+  orientation: 0,
 };
 
 getOrientation();

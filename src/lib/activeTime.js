@@ -50,9 +50,13 @@ function eventCall() {
 }
 
 function init() {
-  browserEvent.create(document, visibilityState.replace(/[vV]isibilityState/, "visibilitychange"), () => {
-    eventCall();
-  });
+  browserEvent.create(
+    document,
+    visibilityState.replace(/[vV]isibilityState/, "visibilitychange"),
+    () => {
+      eventCall();
+    },
+  );
   browserEvent.create(window, "pageshow", () => {
     eventCall();
   });
@@ -96,7 +100,7 @@ function getActiveTime() {
   return {
     pageId: config.pageId,
     pageViewedTime: finishTime - startTime,
-    pageFocusTime: activeTime > 0 ? activeTime : 0
+    pageFocusTime: activeTime > 0 ? activeTime : 0,
   };
 }
 
@@ -114,7 +118,7 @@ function getUserActiveTime() {
   return {
     pageId: config.pageId,
     pageViewedTime: finishTime - userStartTime,
-    pageFocusTime: activeTime > 0 ? activeTime : 0
+    pageFocusTime: activeTime > 0 ? activeTime : 0,
   };
 }
 
@@ -130,5 +134,5 @@ export default {
   init,
   getActiveTime,
   getUserActiveTime,
-  clearNoUse
+  clearNoUse,
 };

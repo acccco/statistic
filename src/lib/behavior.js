@@ -7,13 +7,13 @@ import event from "./browserEvent";
 let behavior = {
   scroll: 0,
   keyup: 0,
-  click: 0
+  click: 0,
 };
 
 let userBehavior = {
   scroll: 0,
   keyup: 0,
-  click: 0
+  click: 0,
 };
 
 /**
@@ -60,12 +60,12 @@ function getUserBehavior() {
   let data = {
     scroll: userBehavior.scroll,
     keyup: userBehavior.keyup,
-    click: userBehavior.click
+    click: userBehavior.click,
   };
   userBehavior = {
     scroll: 0,
     keyup: 0,
-    click: 0
+    click: 0,
   };
   return data;
 }
@@ -73,5 +73,5 @@ function getUserBehavior() {
 export default {
   init,
   getBehavior,
-  getUserBehavior
+  getUserBehavior,
 };

@@ -4,7 +4,7 @@ let local = {
   },
   set(name, value) {
     window.localStorage.setItem(name, value);
-  }
+  },
 };
 
 let session = {
@@ -13,7 +13,7 @@ let session = {
   },
   set(name, value) {
     window.sessionStorage.setItem(name, value);
-  }
+  },
 };
 
 // 包装的 localStorage & sessionStorage 方便调用
@@ -27,5 +27,5 @@ export default {
   remove(name) {
     window.localStorage.removeItem(name);
     window.sessionStorage.removeItem(name);
-  }
+  },
 };

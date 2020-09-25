@@ -2,17 +2,17 @@
 
 ## 使用
 
-1. 将 dist 下的 statistic.js 的文件下载到本地引入。
-2. 搜索 `{{appId}}` 需动态替换成你需要的 `appId` 。(用于标志应用的唯一 `ID`)
-3. 搜索 `{{domList}}` 需动态替换成你需要的 `domList` 。（用 `;` 分割的域名列表，用于表示同一应用的不同服务）
+1. 将 `dist` 下的 `statistic.js` 的文件下载到本地引入。
+2. 搜索 `{{appId}}` 需动态替换成你需要的 `appId`(用于标志应用的唯一 `ID`)。
+3. 搜索 `{{domList}}` 需动态替换成你需要的 `domList` （用 `;` 分割的域名列表，用于表示同一应用的不同服务）。
 4. 搜索 `{{namespaces}}` 需动态替换成你需要的 `namespaces` 。（存储在 storage 中键值的前缀，防止命名冲突）
 5. 搜索 `{{version}}` 需动态替换成你需要的 `version` 。（版本号）
 6. 替换好后引入该 `js`。
-7. 引入后会添加一个 Statistic 对象，接着操作可以看 `DEMO`
+7. 引入后会得到 `Statistic` 对象，接着操作可以看 `DEMO`
 
 ## DEMO
 
-```
+```javascript
   var statistic = new Statistic();
   // 需要监听的事件
   statistic.$on('windowLoad', function (data) {
@@ -47,7 +47,7 @@
 
 ## 事件返回的数据
 
-- windowLoad: 页面加载完成后触发，触发一个相当于浏览开始。（pv start）
+`windowLoad`: 页面加载完成后触发，触发一个相当于浏览开始（`pv start`）。
 
 事件返回的参数:
 ```
@@ -62,7 +62,7 @@
   }
 ```
 
-- browserTiming: 延迟 3 秒后触发，主要统计客户端的网络情况
+`browserTiming`: 延迟 `3` 秒后触发，统计客户端的网络情况。
 
 事件返回的参数:
 ```
@@ -76,7 +76,7 @@
   }
 ```
 
-- clientInfo: 页面加载完成后触发，用于统计客户端信息
+`clientInfo`: 页面加载完成后触发，用于统计客户端信息。
 
 事件返回的参数:
 ```
@@ -92,7 +92,7 @@
 }
 ```
 
-- windowUnload: 页面销毁时触发，相当于一次 pv 结束。（pv end）
+`windowUnload`: 页面销毁时触发，相当于一次 `pv` 结束（`pv end`）。
 
 事件返回的参数:
 ```
@@ -106,13 +106,13 @@
 }
 ```
 
-- pageStart: 自主开启一次 pv 统计，参数与 windowLoad 一致
-- pageClose: 自主关闭一次 pv 统计，参数与 windowUnload 一致
-- 以上两个 API 主要用于单页面应用，由于单页应用不进行页面跳转，当路由切换的时候需要自己手动统计 pv，确保统计的正确性。
+`pageStart`: 自主开启一次 `pv` 统计，参数与 `windowLoad` 一致
+`pageClose`: 自主关闭一次 `pv` 统计，参数与 `windowUnload` 一致
+上述 `API` 用于单页面应用，由于单页应用不进行页面跳转，当路由切换的时候需要自己手动统计 `pv`，确保统计的正确性。
 
-- userEvent: 用户事件提交，主要用于收集用户主动触发的事件，需要将代码嵌入相关事件中。
+`userEvent`: 用户事件提交，主要用于收集用户主动触发的事件，需要将代码嵌入相关事件中。
 
-事件返回的参数即为调用 userEvent 方法时传入的参数。eg:
+事件返回的参数即为调用 `userEvent` 方法时传入的参数。
 ```
 statistic.$on('userEvent', function (data) {
   console.log('userEvent', data)                // {a:1}

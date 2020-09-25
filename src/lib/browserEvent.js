@@ -19,6 +19,6 @@ export default {
    * @param {HTMLElement} dom
    */
   preventDefault(dom) {
-    dom.preventDefault ? dom.preventDefault() : dom.returnValue = false;
-  }
+    dom.preventDefault ? dom.preventDefault() : (dom.returnValue = false);
+  },
 };

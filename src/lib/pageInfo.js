@@ -17,18 +17,21 @@ let gutter = 1800000;
  */
 export default function getPageInfo() {
   let data = {
-    pageId: config.pageId,                // 页面 ID
-    href: document.location.href,         // 当前页面的链接
-    title: document.title,                // 页面 title
-    channelType: 0,                       // 页面的进入渠道 0 直接访问 1 站内跳转(包含域名白名单内的域名) 2 外部链接
-    parentPageId: config.parentPageId,    // 父页面 ID
-    referrer: document.referrer,          // 页面的 referrer
-    pageViewedCount: 0                    // 用户一共看了几个页面
+    pageId: config.pageId, // 页面 ID
+    href: document.location.href, // 当前页面的链接
+    title: document.title, // 页面 title
+    channelType: 0, // 页面的进入渠道 0 直接访问 1 站内跳转(包含域名白名单内的域名) 2 外部链接
+    parentPageId: config.parentPageId, // 父页面 ID
+    referrer: document.referrer, // 页面的 referrer
+    pageViewedCount: 0, // 用户一共看了几个页面
   };
-  let lastInTime = storage.getData(config.namespaces + "_pvLastInTime_" + config.appId) || 0;
+  let lastInTime =
+    storage.getData(config.namespaces + "_pvLastInTime_" + config.appId) || 0;
   data.channelType = getPageInType(Number(lastInTime));
 
-  let historyList = storage.getData(config.namespaces + "_pvHistoryList_" + config.appId);
+  let historyList = storage.getData(
+    config.namespaces + "_pvHistoryList_" + config.appId,
+  );
   historyList = historyList ? historyList.split(",") : [];
   data.pageViewedCount = historyList.length;
 
@@ -36,8 +39,16 @@ export default function getPageInfo() {
     historyList.push(config.pageId);
   }
 
-  storage.setData(config.namespaces + "_pvHistoryList_" + config.appId, historyList.join(","), true);
-  storage.setData(config.namespaces + "_pvLastInTime_" + config.appId, config.pvStartTime, true);
+  storage.setData(
+    config.namespaces + "_pvHistoryList_" + config.appId,
+    historyList.join(","),
+    true,
+  );
+  storage.setData(
+    config.namespaces + "_pvLastInTime_" + config.appId,
+    config.pvStartTime,
+    true,
+  );
 
   return data;
 }
@@ -63,7 +74,6 @@ function getPageInType(lastInTime) {
   } else {
     return 2;
   }
-
 }
 
 /**
@@ -74,12 +84,10 @@ function getPageInType(lastInTime) {
 function inList(url) {
   for (let d = 0; d < config.domList.length; d++) {
     if (-1 < config.domList[d].indexOf("/")) {
-      if (includeUrl(url, config.domList[d]))
-        return true;
+      if (includeUrl(url, config.domList[d])) return true;
     } else {
       let host = getHost(url);
-      if (host && isChildDomain(host, config.domList[d]))
-        return true;
+      if (host && isChildDomain(host, config.domList[d])) return true;
     }
   }
   return false;
